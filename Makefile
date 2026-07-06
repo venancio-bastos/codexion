@@ -4,19 +4,19 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 
 # ==== SOURCE ==== #
+SRC_DIR = src/
+SRC_FILES = main.c
+SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
-SRC_DIR = ./
-SRC = \
-	$(SRC_DIR)main.c
+# ==== HEADER ==== #
+HEADER = $(SRC_DIR)codexion.h
 
 # ==== OBJ ==== #
-
 OBJ_DIR = obj/
-OBJS = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
+OBJS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
-# ==== Compilers ==== #
-
-all: $(Name)
+# ==== RULES ==== #
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
@@ -24,11 +24,10 @@ $(NAME): $(OBJS)
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-obj/%.o: %.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # ==== Clean ==== #
-
 clean:
 	rm -rf $(OBJ_DIR)
 
@@ -37,4 +36,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY all clean fclean re
+.PHONY: all clean fclean re
