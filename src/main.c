@@ -2,12 +2,12 @@
 
 int scheduler_type(char *str)
 {
-    if (!(strcmp("fifo", str) == 0 || strcmp("edf", str) == 0))
+    if (strcmp(str, "fifo") != 0 && strcmp(str, "edf") != 0)
     {
-        printf("ERROR: Scheduler must be fifo or edf.");
-        return (1);
+        printf("Error: Scheduler must be 'fifo' or 'edf'\n");
+        return (0);
     }
-    return (0);
+    return (1);
 }
 
 int is_numeric(char *str)
@@ -30,43 +30,37 @@ int is_numeric(char *str)
     return (1);
 }
 
-int check_args(int ac, char **av)
+int check_args(char **args)
 {
     int i;
-    if (ac < 8)
-    {
-        printf("ERROR: Missing arguments.");
-        return (1);
-    }
 
     i = 0;
     while (i < 7)
     {
-        if (!is_numeric(av[i]))
+        if (!is_numeric(args[i]))
         {
-            printf("ERROR: An arg its not an integer.");
+            printf("Error: Invalid numeric argument at position %d\n", i + 1);
             return (0);
-        }
-        if (i == 0)
-        {
-            if (av[i] < 1)
-            {
-                printf("ERROR: Must have at least 1 coder.");
-            }
         }
         i++;
     }
-
-    if (!scheduler_type(av[i]))
+    if (!scheduler_type(args[7]))
         return (0);
     return (1);
 }
 
 int main(int ac, char **av)
 {
-    if (!check_args(ac, av + 1))
+    if (ac != 9)
+    {
+        printf("Error: Invalid number of arguments\n");
+        return (1);
+    }
+    
+    if (!check_args(av + 1))
         return (1);
 
-    
+    init_data(av + 1);
+
     return (0);
 }

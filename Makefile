@@ -5,7 +5,9 @@ CFLAGS = -Wall -Wextra -Werror -pthread
 
 # ==== SOURCE ==== #
 SRC_DIR = src/
-SRC_FILES = main.c
+SRC_FILES = \
+		main.c \
+		init.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 # ==== HEADER ==== #
