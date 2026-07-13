@@ -1,11 +1,11 @@
 *This project has been created as part of the 42 curriculum by \<vebastos\>.*
 
-Meta 2: O Arquiteto (Structs & Memória)Cria as tuas estruturas (t_coder, t_dongle, t_sim).Faz um malloc para criar arrays de coders e dongles dependendo do número de coders pedido.Inicializa todos os teus mutexes.Teste de sucesso: O programa arranca, aloca memória sem leaks (testa com Valgrind ou as flags de sanitize) e termina.
+1. A Inicialização Fina (Onde estamos agora): Preencher a memória que acabaste de alocar com os dados corretos. Atribuir IDs, inicializar os cadeados (mutexes) e ligar as mãos de cada programador aos adaptadores da esquerda e da direita.
 
-Meta 3: Hello World Multithread (Dar Vida aos Coders)Cria uma função simples (ex: coder_routine) que apenas faz um printf("Olá, sou o coder %d\n", id); e termina.No teu main, faz um loop com pthread_create para lançar todos os coders.Faz outro loop com pthread_join para esperar que todos acabem antes de fechar o programa.Teste de sucesso: Vais ver os "olás" a aparecerem no ecrã de forma desordenada (é normal, é a magia do paralelismo).
+2. O Big Bang (Criação de Threads): Construir o código que vai usar o pthread_create para transformar cada uma daquelas structs estáticas numa entidade "viva", a correr em paralelo dentro do sistema operativo.
 
-Meta 4: O Relógio e o Log (A Infraestrutura de Base)Cria uma função utilitária get_time_in_ms() que usa o gettimeofday.Cria uma função print_log() que tranca um mutex próprio de impressão, faz o printf com o timestamp correto, e destranca. Se não fizeres isto, os logs vão encavalar-se.  
+3. A Rotina Principal (Core Loop): Escrever a função que todas as threads vão executar simultaneamente. É aqui que entra a lógica de tentar agarrar dongles, fazer um usleep para simular o tempo a compilar, imprimir no terminal com o timestamp correto, fazer debug e refatorizar.
 
-Meta 5: O Caos Controlado (A Lógica Principal)Agora sim, escreves a verdadeira coder_routine (o loop infinito).Aplica a lógica de agarrar o dongle da esquerda e depois o da direita (cuidado com o deadlock: se todos agarrarem o da esquerda ao mesmo tempo, o programa bloqueia para sempre).Implementa o usleep para simular o tempo de cada estado (compilar, debug, refactor ).  
+4. O Vigilante (Monitor Thread): Criar uma thread isolada que funciona como a Dona Morte. Ela vai estar num loop infinito, a olhar para o relógio interno de cada programador, para ver se alguém excedeu o time_to_burnout. Se sim, ela bloqueia tudo e muda a flag is_running para 0.
 
-Meta 6: O Monitor (O Ceifeiro) e o SchedulerCria a thread do monitor que vai vigiar o relógio e matar a simulação se o tempo passar o time_to_burnout.  Implementa a heap para o teu scheduler lidar com filas de espera para os dongles.
+5. O Encerramento (Cleanup): Quando o programa termina (seja por burnout ou sucesso), o teu main precisa de usar o pthread_join para recolher todas as threads, usar o pthread_mutex_destroy para destruir os cadeados, e dar free a toda a memória.

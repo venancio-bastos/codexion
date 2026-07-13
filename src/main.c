@@ -51,6 +51,8 @@ int check_args(char **args)
 
 int main(int ac, char **av)
 {
+    t_data data;
+    
     if (ac != 9)
     {
         printf("Error: Invalid number of arguments\n");
@@ -60,7 +62,7 @@ int main(int ac, char **av)
     if (!check_args(av + 1))
         return (1);
 
-    init_data(av + 1);
+    init_data(&data, av + 1);
 
     return (0);
 }

@@ -2,6 +2,7 @@
 # define CODEXION_H_
 
 # include <stdio.h>
+#include <stdlib.h>
 # include <string.h>
 # include <pthread.h>
 # include <sys/time.h>
@@ -49,5 +50,7 @@ int     is_numeric(char *str);
 int     check_args(char **args);
 
 void    init_data(char **args);
+
+void *ft_calloc(size_t count, size_t size);
 
 #endif
