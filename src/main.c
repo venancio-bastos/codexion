@@ -51,7 +51,8 @@ int check_args(char **args)
 
 int main(int ac, char **av)
 {
-    t_data data;
+    t_data  data;
+    int     i;
     
     if (ac != 9)
     {
@@ -64,5 +65,6 @@ int main(int ac, char **av)
 
     init_data(&data, av + 1);
 
+    i = 0;
     return (0);
 }

@@ -9,3 +9,9 @@
 4. O Vigilante (Monitor Thread): Criar uma thread isolada que funciona como a Dona Morte. Ela vai estar num loop infinito, a olhar para o relógio interno de cada programador, para ver se alguém excedeu o time_to_burnout. Se sim, ela bloqueia tudo e muda a flag is_running para 0.
 
 5. O Encerramento (Cleanup): Quando o programa termina (seja por burnout ou sucesso), o teu main precisa de usar o pthread_join para recolher todas as threads, usar o pthread_mutex_destroy para destruir os cadeados, e dar free a toda a memória.
+
+
+
+
+
+CLI : ./codexion 1 2 3 4 5 6 7 fifo

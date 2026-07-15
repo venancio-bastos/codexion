@@ -17,9 +17,8 @@ void init_data(t_data *data, char **args)
 
     data->is_running = 1;
 
-
-    data->coders = calloc(sizeof(t_coder) * data->number_of_coders);
-    data->dongles = calloc(sizeof(t_dongle) * data->number_of_coders);
+    data->coders = ft_calloc(data->number_of_coders, sizeof(t_coder));
+    data->dongles = ft_calloc(data->number_of_coders, sizeof(t_dongle));
 
 
     if (!data->coders || !data->dongles)

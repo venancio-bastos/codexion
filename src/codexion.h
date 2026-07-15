@@ -49,8 +49,8 @@ int     scheduler_type(char *str);
 int     is_numeric(char *str);
 int     check_args(char **args);
 
-void    init_data(char **args);
+void    init_data(t_data *data, char **args);
 
-void *ft_calloc(size_t count, size_t size);
+void    *ft_calloc(size_t count, size_t size);
 
 #endif
