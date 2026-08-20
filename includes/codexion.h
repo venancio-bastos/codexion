@@ -34,6 +34,7 @@ typedef struct s_data
 	int				scheduler;
 	int				sim_stop;
 	long long		start_time;
+	long long		*dongle_available_at;
 	pthread_mutex_t	state_mutex;
 	pthread_mutex_t	*dongles;
 	pthread_mutex_t	print_mutex;

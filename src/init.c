@@ -53,6 +53,12 @@ static int	init_mutexes(t_data *data)
 	data->dongles = ft_calloc(data->number_of_coders, sizeof(pthread_mutex_t));
 	if (data->dongles == NULL)
 		return (1);
+	data->dongle_available_at = ft_calloc(data->number_of_coders, sizeof(long long));
+	if (data->dongle_available_at == NULL)
+	{
+		free(data->dongles);
+		return (1);
+	}
 	i = 0;
 	while (i < data->number_of_coders)
 	{

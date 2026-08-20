@@ -21,12 +21,21 @@ static void	handle_single_coder(t_coder *coder)
 	pthread_mutex_unlock(&coder->data->dongles[coder->left_dongle]);
 }
 
+static void	lock_and_wait_dongle(t_coder *coder, int dongle_id)
+{
+	long long	current_time;
+
+	pthread_mutex_lock(&coder->data->dongles[dongle_id]);
+	current_time = get_current_time();
+	if (current_time < coder->data->dongle_available_at[dongle_id])
+	ft_usleep(coder->data->dongle_available_at[dongle_id] - current_time);
+	print_status(coder, "has taken a dongle");
+}
+
 static void	grab_dongles(t_coder *coder)
 {
-	pthread_mutex_lock(&coder->data->dongles[coder->left_dongle]);
-	print_status(coder, "has taken a dongle");
-	pthread_mutex_lock(&coder->data->dongles[coder->right_dongle]);
-	print_status(coder, "has taken a dongle");
+	lock_and_wait_dongle(coder, coder->left_dongle);
+	lock_and_wait_dongle(coder, coder->right_dongle);
 	pthread_mutex_lock(&coder->data->queue_mutex);
 	coder->data->queue_head = coder->data->queue_head->next_in_queue;
 	pthread_mutex_unlock(&coder->data->queue_mutex);
@@ -50,7 +59,9 @@ static void	compile_routine(t_coder *coder)
 	pthread_mutex_lock(&coder->data->state_mutex);
 	coder->compiles_count++;
 	pthread_mutex_unlock(&coder->data->state_mutex);
+	coder->data->dongle_available_at[coder->left_dongle] = get_current_time() + coder->data->dongle_cooldown;
 	pthread_mutex_unlock(&coder->data->dongles[coder->left_dongle]);
+	coder->data->dongle_available_at[coder->right_dongle] = get_current_time() + coder->data->dongle_cooldown;
 	pthread_mutex_unlock(&coder->data->dongles[coder->right_dongle]);
 }
 

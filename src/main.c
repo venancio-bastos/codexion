@@ -54,6 +54,7 @@ int	main(int ac, char **av)
 		return (1);
 	start_simulation(&data, coders);
 	free(data.dongles);
+	free(data.dongle_available_at);
 	free(coders);
 	return (0);
 }
